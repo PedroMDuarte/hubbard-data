@@ -1,0 +1,483 @@
+
+
+DETAILED PROCEDURE TO PRODUCE LDA PLOTS IN AFM PAPER
+====================================================
+
+
+1.  Start out in an empty directory called 'hubbard-data/'  
+
+2.  Create directory  'hubbard-data/dataplots/' .  This is where all the plots
+    and some data will go in the end 
+
+3.  Copy all the necessary .ipynb files 
+
+	hubbard-data/dataplots/ALLdataplots.ipynb
+	hubbard-data/dataplots/ExtraQMCdata.ipynb
+	hubbard-data/dataplots/NLCEdataplots.ipynb
+	hubbard-data/dataplots/QMCdataplots.ipynb
+	hubbard-data/dataplots/QMCvsNLCE.ipynb
+
+4.  Copy the latest snapshot from Therezas's data 
+
+	cp -r ~/Dropbox/QMC-data/QMCdataforLDA/ ./
+
+
+5.  Data files are copied from Thereza's folder to a new folder called
+    QMCdatacopy/   by using the automated script
+
+	./TherezaDataCopy
+
+
+6.  Thereza is always reorganizing the data, so at any given time you will find
+    that some data sets are missing,  but that is just because they are not 
+    found where they are supposed to be 
+
+    One can check for instance by comparing the output of these two commands
+
+	find ./QMCdataforLDA/ -name '*saf*' | grep U1/  # Checks Thereza folder
+	
+	find ./QMCdatacopy/ -name '*saf*' | grep U01    # Checks copied files
+
+
+7.  Carry out the above checks manually for all values of U and for all thermo-
+    dynamic quantities.  You will find that you need to fix the following 
+    problems:
+ 
+    -  U07, T=0.67  has a lower case t instead of T for the temperature in the
+                    file name 
+
+    -  U09  All data sets are labeled with L instead of T.  The relationship
+            is  T/t = 20/L,  so one has to manually relabel them:
+
+            $ mv saf6l20u9dt0.05.dat saf6u9T1.00dt0.05.dat  (..and so on) 
+
+
+8.  Some of the data files still have minor issues in their contents: 
+
+    - U04,T=0.40  Entropy file has some incomplete rows at the end, delete them
+
+    - U08,T=1.00  Entropy file has some incomplete rows at the end, delete them
+
+
+9.  Start out with the ipython notebook called 'dataplots/QMCdataplots.ipynb'. 
+    This will be used to organize and plot all of the available QMC data. 
+
+10. The ipython notebook will tell you if there are any repeated values of T 
+    for a given U and a given thermodynamic quantity.   What I do then is 
+    remove the offending files.  
+
+11. In the dataset used on 10/13/2014 these are the files that I had to remove:
+
+	'./QMCdatacopy/U02/saf6u2T0.37dt0.05.dat'
+	'./QMCdatacopy/U02/saf6u2T0.38dt0.05.dat'
+	'./QMCdatacopy/U02/saf6u2T0.40dt0.05.dat'
+	'./QMCdatacopy/U02/saf6u2T0.50dt0.05.dat'
+
+	'./QMCdatacopy/U08/saf6l20u8T1.000dt0.05non.dat'
+	'./QMCdatacopy/U08/saf6l50u8T0.400dt0.05non.dat'
+	'./QMCdatacopy/U08/saf6l30u8T0.667dt0.05non.dat'
+	'./QMCdatacopy/U08/saf6l40u8T0.500dt0.05non.dat'
+
+
+12. After the code in CELL1 of QMCdataplots.ipynb is executed the output should
+    look like this:
+
+	==================
+	FINAL DATA SUMMARY
+	==================
+	SPI:
+
+	{1.0: [1.0,
+	       0.667,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357,
+	       0.286,
+	       0.25],
+	 2.0: [2.4,
+	       1.6,
+	       1.0,
+	       1.2,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357,
+	       0.303,
+	       0.294,
+	       0.286,
+	       0.25],
+	 4.0: [2.4,
+	       1.6,
+	       1.0,
+	       1.2,
+	       0.667,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357,
+	       0.333,
+	       0.323,
+	       0.313,
+	       0.286],
+	 6.0: [0.357, 0.37, 0.385, 0.4, 0.5, 0.667, 1.0],
+	 7.0: [0.4, 0.5, 0.667, 1.0],
+	 8.0: [0.37, 0.385, 0.4, 0.5, 0.667, 1.0],
+	 9.0: [0.4, 0.5, 0.667, 1.0],
+	 10.0: [0.5, 0.667]}
+
+	ENTROPY:
+
+	{1.0: [0.37, 0.385, 0.4, 0.5, 0.667, 1.0],
+	 2.0: [0.294, 0.37, 0.385, 0.4, 0.5, 0.667, 1.0],
+	 4.0: [0.323, 0.37, 0.385, 0.4, 0.5, 0.667, 1.0],
+	 6.0: [0.344, 0.37, 0.385, 0.4, 0.5, 0.667, 1.0],
+	 7.0: [0.37, 0.385, 0.4, 0.5, 0.667, 1.0],
+	 8.0: [0.385, 0.4, 0.5, 0.667, 1.0],
+	 9.0: [0.4, 0.5, 0.667, 1.0],
+	 10.0: [0.5, 0.667],
+	 12.0: [1.0],
+	 14.0: [0.5, 0.667]}
+
+	DENSITY:
+
+	{1.0: [1.111,
+	       1.0,
+	       0.909,
+	       0.714,
+	       0.667,
+	       0.625,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357,
+	       0.286,
+	       0.25],
+	 2.0: [2.4,
+	       4.8,
+	       1.6,
+	       1.111,
+	       1.0,
+	       1.2,
+	       0.909,
+	       0.714,
+	       0.667,
+	       0.625,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357,
+	       0.303,
+	       0.294,
+	       0.286,
+	       0.25],
+	 4.0: [2.4,
+	       4.8,
+	       1.6,
+	       1.111,
+	       1.0,
+	       1.2,
+	       0.909,
+	       0.714,
+	       0.667,
+	       0.625,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357,
+	       0.333,
+	       0.323,
+	       0.313,
+	       0.286,
+	       0.25],
+	 6.0: [1.111,
+	       1.0,
+	       0.909,
+	       0.714,
+	       0.667,
+	       0.625,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357,
+	       0.345,
+	       0.333],
+	 7.0: [1.111,
+	       1.0,
+	       0.909,
+	       0.714,
+	       0.667,
+	       0.625,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385,
+	       0.37,
+	       0.357],
+	 8.0: [2.4,
+	       4.8,
+	       1.6,
+	       1.111,
+	       1.0,
+	       1.2,
+	       0.909,
+	       0.714,
+	       0.667,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.384,
+	       0.37],
+	 9.0: [1.111,
+	       1.0,
+	       0.909,
+	       0.714,
+	       0.667,
+	       0.625,
+	       0.526,
+	       0.5,
+	       0.476,
+	       0.417,
+	       0.4,
+	       0.385],
+	 10.0: [1.111, 1.0, 0.909, 0.714, 0.667, 0.625, 0.526, 0.5, 0.478, 0.4],
+	 12.0: [1.111, 1.0, 0.909, 0.714, 0.667, 0.625, 0.526, 0.5, 0.476],
+	 14.0: [1.111, 1.0, 0.909, 0.714, 0.667, 0.625, 0.5, 0.476],
+	 16.0: [2.4,
+		4.8,
+		1.6,
+		1.111,
+		1.0,
+		1.2,
+		0.909,
+		0.714,
+		0.667,
+		0.325,
+		0.526,
+		0.5,
+		0.476]}
+
+
+    Notice that inside CELL1 there is code that fixes particular problems with
+    some of the data sets, such as removing spurious points and correcting for
+    missing columns
+
+9.  Running CELL1b creates filtered versions of the low temperature Stheta
+    for U=8 and U=9.  Removes excessive noise from DQMC
+
+
+10.  Running CELL2 makes nice plots of n, spi, entropy and puts them in
+    'dataplots/QMC_Final/'
+
+
+11. Running CELL3 saves the Spi and Entropy QMC data in the final directories:
+    'hubbard-data/COMB_Final_Spi/'  and 'hubbard-data/COMB_Final_Entr/'
+
+
+%%%%%%%
+COMMENT
+%%%%%%%
+
+With the original data set I ran the interpolation and got   
+
+	U=7.64, T=0.90, mu=3.82 
+	    Spi = 1.550
+	Entropy = 0.753 
+
+With the latest QMC data fetched on 07/14 I got 
+
+	U=7.64, T=0.90, mu=3.82 
+	    Spi = 1.584
+	Entropy = 0.738
+
+%%%%%%%%%%%
+END COMMENT
+%%%%%%%%%%%
+
+
+11. Next, we collect the Extra QMC data that has been sent around in emails. 
+    This corresponds to data generated by Richard and Ehsan when Thereza was 
+    out of town.  
+
+    -- First we go through the data generated by Richard, which is only for
+       mu<0 (particle-hole symmetry)  and has four columns:
+
+       mu  rho  spi  err
+
+    -- Of the data sets generated by Richard, the U=10, T=0.500 was later on
+       generated by Thereza with a finer mu grid.  When generating the final
+       files we will merge Thereza's and Richard's data 
+
+    email subject :  U=7 T=0.36 may need finer mu mesh
+    email date    :  Tue, Jun 24, 2014 at 3:58 PM
+    contents      :  Data at U=7, T=0.36 6x6x6  generated by Richard 
+    destination   :  'QMC_Extra/Richard_U07_T0.360_6x6x6_140624.dat'
+
+    email subject :  U=8 T=0.400 data
+    email date    :  Thu, Jun 26, 2014 at 12:43 PM
+    contents      :  Data at U=8, T=0.4 6x6x6  generated by Richard 
+    destination   :  'QMC_Extra/Richard_U08_T0.400_6x6x6_140626.dat'
+
+    email subject :  U=10 T=0.500 data
+    email date    :  Mon, Jun 30, 2014 at 12:51 AM
+    contents      :  Data at U=10, T=0.5 6x6x6  generated by Richard 
+    destination   :  'QMC_Extra/Richard_U10_T0.500_6x6x6_140630.dat'
+
+    email subject :  U=12 T=0.500
+    email date    :  Mon, Jun 30, 2014 at 1:17 AM
+    contents      :  Data at U=12, T=0.5 6x6x6  generated by Richard 
+    destination   :  'QMC_Extra/Richard_U12_T0.500_6x6x6_140630.dat'
+
+
+
+
+    -- Then we will go through the data generated by Ehsan.  This data can be 
+       found inside a compressed file called data.tar that Ehsan sent around 
+       several times.  It is also now in Thereza's dropbox folder 
+       'QMCdataforlda'
+
+    -- Here we will restrict ourselves to 6x6x6 data.  Ehsan also sent out some
+       4x4x4 and 8x8x8 data to study finite size effects. 
+
+    -- In these sets only mu<0 is available (particle-hole symmetry)
+
+    -- The columns for these files are: 
+
+	# 1    2   3     4     5     6      7     8     9        10        11
+	# mu, Saf, +-, <sign>, +-, Density, +-, Energy, +-, Double Occup., +- 
+
+    -- Ehsan generated a lot of U=9 data, but most of it was also covered by 
+       Thereza after she came back, so we will only need to use T=0.588
+
+    file name   :  'Ehsan_U07_L6_dt0.05_l56_T0.357.dat'
+    contents    :  U=7, T=0.357 
+    destination :  'Ehsan_U07_L6_dt0.05_l56_T0.357.dat'
+
+    file name   :  'Ehsan_U09_L6_dt0.05_l34_T0.588.dat'
+    contents    :  U=9, T=0.588
+    destination :  'Ehsan_U09_L6_dt0.05_l34_T0.588.dat'
+
+
+
+    -- Finally we collect the data that Ehsan was able to recover from Thereza's
+       work at U=8 
+
+    file name   :  'Thereza_U08_L6_dt0.05_l30_T0.667.dat'
+    contents    :  U=8, T=0.667 
+    destination :  'Thereza_U08_L6_dt0.05_l30_T0.667.dat'
+
+    file name   :  'Thereza_U08_L6_dt0.05_l40_T0.500.dat'
+    contents    :  U=8, T=0.500 
+    destination :  'Thereza_U08_L6_dt0.05_l40_T0.500.dat'
+
+
+***
+***  IN TOTAL THERE ARE 6 EXTRA DATA SETS THAT NEED TO BE PROCESSED:
+***
+***  Richard : 4 
+***  Ehsan   : 2 
+***
+***  
+
+    
+12. Before processing the QMC_Extra data we will process the NLCE data set. 
+    A lot of noise filtering had to be performed on the NLCE data.  After 
+    filtering, the final results were saved into the directory 'NLCE8_Final/'. 
+    
+    Go ahead and copy 'NLCE8_Final/' into the working directory (if it is not
+    already there).  
+
+
+13. After making the NLCE8_Final data available one can go ahead and plot it by 
+    running CELL1 in the ipynb 'NLCEdataplots'
+
+14. With the NLCE data we complement the QMC data.   In CELL2 of the 
+    'NLCEdataplots' ipynb one can fill up a dictionary to decide which data from
+    NLCE gets copied over to the final data locations, 
+    'hubbard-lda2/COMB_Final_Spi/'  and 'hubbard-lda2/COMB_Final_Entr/'
+
+    -- The dictionary used is as follows: 
+
+	copydict = { \
+	     0.:[0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0],\
+	     2.:[1.2, 1.6, 2.0],\
+	     4.:[1.2, 1.6, 2.0],\
+	     6.:[1.2, 1.6, 2.0],\
+	     7.:[1.2, 1.6, 2.0],\
+	     8.:[1.2, 1.6, 2.0],\
+	    10.:[0.40, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    12.:[0.40, 0.72, 1.0, 1.2, 1.6, 2.0],\
+	    14.:[0.40, 0.50, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0],\
+	    16.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    18.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    20.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    22.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    24.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    26.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    28.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    30.:[0.40, 0.50, 0.64, 0.72, 0.84, 0.90, 1.0, 1.2, 1.6, 2.0 ],\
+	    }
+
+
+15. We now go back to the QMC_Extra data and process it.  To do so simply go to
+    the ipynb called 'ExtraQMCdata' and run CELL1 (Richard's data) and CELL2.  
+    (Ehsan's data) 
+
+16. Finally manually copy the data files from 'hubbard-lda2/QMC_Extra_Final/'
+    into  'hubbard-lda2/COMB_Final_Spi/'
+
+	$ cp QMC_Extra_Final/U07/T0.3* COMB_Final_Spi/U07/
+	$ cp QMC_Extra_Final/U09/T0.588.dat COMB_Final_Spi/U09/
+	$ cp QMC_Extra_Final/U12/T0.500.dat COMB_Final_Spi/U12/
+
+17. ALL DONE!  This finalizes the process of getting the QMC and NLCE data in
+    the right place. 
+
+
+
+
+
+
+
+
+     
+
+
+
+    
+
+
+
+
+
+
+

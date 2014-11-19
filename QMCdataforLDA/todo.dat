@@ -1,0 +1,16 @@
+6x6x6   dtau=0.05
+x -> done
+r -> running
+
+U l18	l20	l22	l28	l30	l32	l38	l40	l42	l48	l50	l52	l54	l56
+1  x	 x	 x	 x	 x	 x	 x       x	 x	 x	 x	 x	 x	x
+2  x	 x	 x	 x	 x	 x	 x       x	 x	 x	 x	 x	 x	x
+4  x	 x	 x	 x	 x	 x	 x	 x	 x	 x	 x	 x	 x	x
+6  x 	 x	 x	 x	 x	 x	 x	 x	 x       x       x       x       x
+8  x	 x	 x	 x	 x	 x	 x	 x	 x       x       x	 x	 x
+10 x	 x 	 r	 x	 x	 x	 x       x     sign~0.4
+12 x	 x	 x	 x	 x	 x       x    sign~0.17  x
+14			 x       x       x       x    sign~10ˆ-2
+16 x	 x	 x	 x	 x	 x	
+18
+20
